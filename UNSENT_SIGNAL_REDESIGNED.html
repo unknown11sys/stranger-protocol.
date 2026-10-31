@@ -1,0 +1,311 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1">
+<meta name="theme-color" content="#08090d">
+<title>UNSENT_SIGNAL.exe — private archive</title>
+<style>
+:root{
+ --bg:#08090d;--panel:#0d1018;--panel2:#111622;--line:#273142;--muted:#788397;
+ --text:#e5e9f2;--cyan:#68f4e3;--pink:#e88bc9;--violet:#9e91ff;--amber:#e5c58a;
+ --mono:ui-monospace,SFMono-Regular,Consolas,"Liberation Mono",monospace;
+}
+*{box-sizing:border-box}
+html{scroll-behavior:smooth}
+body{margin:0;background:radial-gradient(ellipse at 50% -20%,#182331 0%,#0a0c12 42%,var(--bg) 78%);color:var(--text);font-family:var(--mono);min-height:100vh;overflow-x:hidden}
+body:before{content:"";position:fixed;inset:0;pointer-events:none;opacity:.16;background:repeating-linear-gradient(0deg,transparent 0 3px,rgba(255,255,255,.025) 4px),linear-gradient(90deg,transparent 49.9%,rgba(104,244,227,.05) 50%,transparent 50.1%);z-index:10}
+body:after{content:"";position:fixed;inset:0;pointer-events:none;background:radial-gradient(ellipse at center,transparent 45%,rgba(0,0,0,.55));z-index:9}
+button,input{font:inherit}
+button{cursor:pointer}
+a{color:var(--cyan)}
+#boot{position:fixed;inset:0;background:#07090d;z-index:30;display:grid;place-items:center;padding:24px;transition:opacity .8s,visibility .8s}
+#boot.done{opacity:0;visibility:hidden}
+.bootbox{width:min(680px,100%);border:1px solid #28434a;background:#0a1016;padding:26px;box-shadow:0 0 55px #68f4e31a}
+.kicker,.eyebrow{font-size:10px;letter-spacing:.2em;color:var(--cyan);text-transform:uppercase}
+.boottitle{font-size:clamp(25px,5vw,44px);letter-spacing:.08em;margin:18px 0 8px}
+.bootlog{color:#9ca9b9;font-size:12px;line-height:2;min-height:105px;white-space:pre-line}
+.progress{height:3px;background:#1c2732;margin-top:18px;overflow:hidden}
+.progress i{display:block;height:100%;width:0;background:linear-gradient(90deg,var(--cyan),var(--pink));animation:load 2.6s ease forwards}
+@keyframes load{to{width:100%}}
+.wrap{width:min(1180px,calc(100% - 34px));margin:auto}
+header{padding:28px 0 18px;border-bottom:1px solid #202a37}
+.topline{display:flex;align-items:center;justify-content:space-between;gap:14px;flex-wrap:wrap}
+.brand{font-size:12px;letter-spacing:.2em;color:var(--cyan)}
+.status{font-size:10px;color:#9aa6b6;display:flex;align-items:center;gap:8px}
+.dot{width:7px;height:7px;border-radius:50%;background:var(--cyan);box-shadow:0 0 12px var(--cyan)}
+.hero{padding:54px 0 36px;display:grid;grid-template-columns:1.4fr .6fr;gap:28px;align-items:end}
+h1{font-size:clamp(34px,7vw,76px);line-height:.98;letter-spacing:-.06em;margin:14px 0}
+h1 span{color:var(--cyan);text-shadow:0 0 24px #68f4e333}
+.subtitle{color:#9aa5b5;line-height:1.8;font-size:12px;max-width:610px}
+.hero-aside{border-left:1px solid var(--line);padding:8px 0 8px 18px;color:#8290a2;font-size:11px;line-height:2}
+.hero-aside b{color:var(--pink);font-weight:500}
+.panel{border:1px solid var(--line);background:linear-gradient(145deg,#101620ee,#0b0e15f2);box-shadow:0 18px 55px #0005}
+.gate{padding:22px;margin-bottom:22px}
+.gatehead{display:flex;justify-content:space-between;gap:12px;flex-wrap:wrap;margin-bottom:15px}
+.gatehead strong{font-size:12px;letter-spacing:.12em}
+label{display:block;color:#8e9aac;font-size:10px;letter-spacing:.12em;margin-bottom:9px;text-transform:uppercase}
+.gaterow{display:flex;gap:10px}
+input{min-width:0;flex:1;background:#080d13;border:1px solid #35515a;color:var(--text);padding:15px 14px;outline:none}
+input:focus{border-color:var(--cyan);box-shadow:0 0 0 2px #68f4e31a}
+.btn{border:1px solid var(--cyan);background:#102329;color:var(--cyan);padding:13px 17px;font-size:10px;letter-spacing:.12em;text-transform:uppercase;transition:.2s}
+.btn:hover{background:#17343a;box-shadow:0 0 20px #68f4e322}
+.btn.secondary{border-color:#455064;background:#121722;color:#c3cada}
+.hint{font-size:10px;color:#697689;margin:11px 0 0;line-height:1.7}
+#error{font-size:11px;color:#ff9bba;min-height:16px;margin-top:8px}
+#archive{display:none}
+#archive.unlocked{display:block;animation:rise .6s ease}
+@keyframes rise{from{opacity:0;transform:translateY(12px)}to{opacity:1;transform:none}}
+.sectionhead{display:flex;align-items:end;justify-content:space-between;gap:15px;margin:40px 0 16px}
+.sectionhead h2{font-size:19px;letter-spacing:.06em;margin:7px 0 0}
+.sectionhead p{font-size:10px;color:var(--muted);margin:0}
+.grid{display:grid;grid-template-columns:repeat(3,1fr);gap:12px}
+.card{border:1px solid var(--line);background:linear-gradient(150deg,#111824,#0b0e14);padding:17px;min-height:170px;position:relative;overflow:hidden;transition:.2s}
+.card:hover{border-color:#4c7479;transform:translateY(-2px)}
+.card:after{content:"";position:absolute;width:90px;height:90px;right:-45px;bottom:-48px;border:1px solid #68f4e31c;transform:rotate(45deg)}
+.card .num{color:var(--pink);font-size:10px;letter-spacing:.15em}
+.card h3{font-size:14px;margin:14px 0 8px}
+.card p{font-size:11px;line-height:1.8;color:#8d9aac;margin:0 0 15px}
+.card button{font-size:9px;padding:9px 11px}
+.detail{display:none;margin-top:12px;padding:14px;border-left:2px solid var(--pink);background:#080d14;color:#c7cfda;font-size:11px;line-height:1.9;white-space:pre-line}
+.detail.show{display:block;animation:rise .35s ease}
+.directory{padding:20px}
+.dirgrid{display:grid;grid-template-columns:repeat(2,1fr);gap:8px}
+.diritem{border:1px solid #283344;background:#0b1018;color:#b7c2d0;text-align:left;padding:13px;font-size:11px;display:flex;justify-content:space-between;gap:10px}
+.diritem:hover{border-color:var(--violet);color:#fff}
+.diritem small{color:var(--violet)}
+.diroutput{margin-top:13px;min-height:70px;background:#080c12;border:1px solid #202b39;padding:15px;color:#9ba9ba;font-size:11px;line-height:1.8;white-space:pre-line}
+.hiddenpanel{display:none;margin-top:14px;padding:19px;border:1px solid #744b70;background:linear-gradient(135deg,#1b1020,#0c1018);box-shadow:0 0 30px #e88bc91a}
+.hiddenpanel.show{display:block;animation:rise .6s ease}
+.hiddenpanel h3{color:var(--pink);font-size:15px}
+.hiddenpanel p{font-size:12px;line-height:1.9;color:#d1c5d2}
+.final{display:none;margin:38px 0 20px;padding:25px;border:1px solid #5a526f;background:linear-gradient(130deg,#151321,#0c1018);position:relative}
+.final.show{display:block;animation:rise .8s ease}
+.final h2{font-size:clamp(22px,4vw,36px);margin:12px 0;color:#f0d8eb}
+.final p{max-width:760px;color:#c1bdca;line-height:2;font-size:12px;white-space:pre-line}
+.signature{color:var(--pink);font-size:10px;letter-spacing:.15em;margin-top:24px}
+footer{padding:28px 0 42px;margin-top:40px;border-top:1px solid #202a37;display:flex;justify-content:space-between;gap:12px;flex-wrap:wrap;color:#596779;font-size:9px;letter-spacing:.1em}
+.toast{position:fixed;right:18px;bottom:18px;z-index:20;background:#101a20;border:1px solid #355c60;color:var(--cyan);padding:12px 15px;font-size:10px;opacity:0;transform:translateY(8px);transition:.25s;pointer-events:none}
+.toast.show{opacity:1;transform:none}
+@media(max-width:760px){.hero{grid-template-columns:1fr;padding:38px 0 25px}.hero-aside{border-left:0;border-top:1px solid var(--line);padding:13px 0 0}.grid{grid-template-columns:1fr}.dirgrid{grid-template-columns:1fr}.gaterow{flex-direction:column}.gaterow .btn{width:100%}.wrap{width:min(100% - 24px,650px)}}
+</style>
+</head>
+<body>
+<div id="boot">
+ <div class="bootbox">
+  <div class="kicker">UNSENT_SIGNAL.exe // archive recovery</div>
+  <div class="boottitle">RESTORING <span style="color:var(--cyan)">SILENCE</span></div>
+  <div class="bootlog" id="bootlog">initializing local environment...\nchecking archive integrity...\nrecipient identity: unresolved</div>
+  <div class="progress"><i></i></div>
+ </div>
+</div>
+<div class="wrap">
+<header>
+ <div class="topline">
+  <div class="brand">[ U N S E N T _ S I G N A L ]</div>
+  <div class="status"><i class="dot"></i> LOCAL ARCHIVE // READ ONLY</div>
+ </div>
+</header>
+<section class="hero">
+ <div>
+  <div class="eyebrow">Recovered archive / build 0x19</div>
+  <h1>THE THINGS<br>WE <span>DIDN'T SEND.</span></h1>
+  <p class="subtitle">A private collection of unfinished sentences, preserved moments, and messages that learned to exist without requiring an answer.</p>
+ </div>
+ <div class="hero-aside">
+  <div>ARCHIVE ID <b>0x19-UNSENT</b></div>
+  <div>RECIPIENT <b>UNKNOWN ENTITY</b></div>
+  <div>DELIVERY STATUS <b>NOT SENT</b></div>
+  <div>RESPONSE REQUIRED <b>FALSE</b></div>
+ </div>
+</section>
+<section class="panel gate">
+ <div class="gatehead"><strong>01 // ACCESS TERMINAL</strong><span class="eyebrow">encrypted entry</span></div>
+ <label for="phrase">Enter search token / access phrase</label>
+ <div class="gaterow">
+  <input id="phrase" type="password" autocomplete="off" placeholder="enter access phrase..." aria-label="Access phrase">
+  <button class="btn" id="decrypt">[ DECRYPT ]</button>
+ </div>
+ <p class="hint">This archive runs locally in your browser. The access phrase is a small interaction gate, not secure encryption.</p>
+ <div id="error" role="status"></div>
+</section>
+<main id="archive">
+ <div class="eyebrow">02 // payload recovered</div>
+ <div class="sectionhead">
+  <div><div class="eyebrow">Primary transmission</div><h2>HAPPY BIRTHDAY, UNKNOWN ENTITY.</h2></div>
+  <p>PAYLOAD :: DECRYPTED</p>
+ </div>
+ <section class="panel" style="padding:22px 22px 24px">
+  <p style="font-size:14px;color:#f1eaf2;font-weight:bold">hai kak, Happy birthday 4u^^</p>
+  <p style="font-size:12px;line-height:2;color:#bac4d1">I hope this new chapter brings you quieter days, unexpected good things, and room to become more of yourself.</p>
+  <p style="font-size:12px;line-height:2;color:#bac4d1">Selalu inget, lepasin yang nggak bisa kaka ubah, syukuri yang pernah singgah, dan melangkahlah menuju cerita yang masih menunggu untuk ditulis.</p>
+  <p style="font-size:11px;color:var(--pink);margin:24px 0 0">— transmission ends. no response required.</p>
+ </section>
+
+ <div class="sectionhead">
+  <div><div class="eyebrow">03 // recovered fragments</div><h2>MEMORY ARCHIVE</h2></div>
+  <p id="memorycount">0 / 3 FRAGMENTS OPENED</p>
+ </div>
+ <section class="grid" id="memories">
+  <article class="card">
+   <div class="num">FRAGMENT_001 // 0xA1</div><h3>THE SMALL THINGS</h3>
+   <p>Not every meaningful thing arrives loudly.</p>
+   <button class="btn secondary reveal" data-detail="Some moments were ordinary while they happened. Only later did they become the kind of memory that asks for no explanation.">[ RECOVER FILE ]</button>
+   <div class="detail"></div>
+  </article>
+  <article class="card">
+   <div class="num">FRAGMENT_002 // 0xB7</div><h3>WHAT REMAINS</h3>
+   <p>A memory can stay without becoming a destination.</p>
+   <button class="btn secondary reveal" data-detail="There is no need to return to every place that once felt familiar. Some things can be appreciated from a distance, without asking them to become what they were.">[ RECOVER FILE ]</button>
+   <div class="detail"></div>
+  </article>
+  <article class="card">
+   <div class="num">FRAGMENT_003 // 0xC9</div><h3>THE UNLEARNED</h3>
+   <p>Some lessons take longer to understand.</p>
+   <button class="btn secondary reveal" data-detail="I hope the things that once felt heavy become easier to carry. I hope growth finds its way to both sides, even if our paths no longer run beside each other.">[ RECOVER FILE ]</button>
+   <div class="detail"></div>
+  </article>
+ </section>
+
+ <div class="sectionhead">
+  <div><div class="eyebrow">04 // directory map</div><h2>SECRET DIRECTORY</h2></div>
+  <p>SELECT A PATH TO INSPECT</p>
+ </div>
+ <section class="panel directory">
+  <div class="dirgrid">
+   <button class="diritem" data-dir="past"><span>▸ /archive/past/</span><small>READ</small></button>
+   <button class="diritem" data-dir="unsent"><span>▸ /outbox/unsent/</span><small>READ</small></button>
+   <button class="diritem" data-dir="distance"><span>▸ /memory/distance/</span><small>READ</small></button>
+   <button class="diritem" data-dir="hidden"><span>▸ /system/hidden/</span><small>LOCKED</small></button>
+  </div>
+  <div class="diroutput" id="diroutput">directory idle.\nchoose a path to inspect its contents...</div>
+  <div class="hiddenpanel" id="hiddenpanel">
+   <div class="eyebrow">HIDDEN PAYLOAD // FOUND</div>
+   <h3>IF THIS MESSAGE FINDS YOU</h3>
+   <p>Be good to everyone, but be goodest to only one: the person you are becoming. Treat your own growth with the same patience you offer to others. You deserve a life that feels honest, peaceful, and entirely your own.</p>
+   <p style="color:#9b8b9e">[ this fragment was never meant to ask you to come back. ]</p>
+  </div>
+ </section>
+
+ <section class="final" id="final">
+  <div class="eyebrow">05 // final transmission unlocked</div>
+  <h2>NO SIGNAL. NO EXPECTATION.</h2>
+  <p>Maybe some connections are only meant to accompany a chapter, not the entire story. That doesn't make the chapter meaningless.
+
+I hope life is kind to you. I hope you keep learning, keep becoming, and find reasons to be proud of the person you are. Take care of the things that matter, and don't forget to take care of yourself, too.
+
+There is nothing you need to answer here. This message can end where it is.</p>
+  <div class="signature">END OF FILE // DELIVERY STATUS: NOT SENT</div>
+ </section>
+</main>
+<footer>
+ <span>UNSENT_SIGNAL.exe // BUILD 0x19.2</span>
+ <span>NO ACCOUNT ACCESS · NO DATA TRANSMISSION</span>
+ <span>LOCAL DISPLAY ONLY</span>
+</footer>
+</div>
+<div class="toast" id="toast">FILE RECOVERED</div>
+<script>
+/* EDIT THIS VALUE if you want to change the access phrase. */
+const ACCESS_TOKEN = "birthday";
+const HIDDEN_TOKEN = "afterglow";
+const $ = id => document.getElementById(id);
+const bootLines = [
+ "initializing local environment...",
+ "checking archive integrity...",
+ "recipient identity: unresolved",
+ "one encrypted payload detected...",
+ "system ready."
+];
+let bootIndex = 0;
+const bootTimer = setInterval(() => {
+ if (bootIndex < bootLines.length) {
+  $("bootlog").textContent += (bootIndex ? "\n" : "") + bootLines[bootIndex++];
+ } else {
+  clearInterval(bootTimer);
+  $("boot").classList.add("done");
+ }
+}, 390);
+setTimeout(() => $("boot").classList.add("done"), 3600);
+
+function unlock(){
+ const value = $("phrase").value.trim();
+ if (value.toLowerCase() !== ACCESS_TOKEN.toLowerCase()){
+  $("error").textContent = "ACCESS DENIED // token not recognized.";
+  $("phrase").focus();
+  return;
+ }
+ $("error").textContent = "";
+ $("archive").classList.add("unlocked");
+ $("archive").scrollIntoView({behavior:"smooth",block:"start"});
+}
+$("decrypt").addEventListener("click",unlock);
+$("phrase").addEventListener("keydown",e=>{if(e.key==="Enter")unlock()});
+
+let opened = 0;
+document.querySelectorAll(".reveal").forEach(button=>{
+ button.addEventListener("click",()=>{
+  const detail = button.nextElementSibling;
+  if(!detail.classList.contains("show")){
+   detail.textContent = button.dataset.detail;
+   detail.classList.add("show");
+   button.textContent = "[ FILE RECOVERED ]";
+   button.disabled = true;
+   opened++;
+   $("memorycount").textContent = opened + " / 3 FRAGMENTS OPENED";
+   toast("MEMORY FRAGMENT RECOVERED");
+   checkFinal();
+  }
+ });
+});
+const dirMessages = {
+ past:"/archive/past/\\n3 records found.\\nStatus: preserved, not editable.\\nA past can be remembered without being repeated.",
+ unsent:"/outbox/unsent/\\n1 transmission found.\\nStatus: never delivered.\\nNot every honest thought needs an audience.",
+ distance:"/memory/distance/\\nConnection: inactive.\\nRespect protocol: enabled.\\nDistance can be a boundary, not a punishment.",
+ hidden:"/system/hidden/\\nLOCKED DIRECTORY.\\nEnter the hidden token below to inspect this file."
+};
+document.querySelectorAll(".diritem").forEach(button=>{
+ button.addEventListener("click",()=>{
+  const key = button.dataset.dir;
+  $("diroutput").textContent = dirMessages[key];
+  if(key==="hidden"){
+   const input = document.createElement("input");
+   input.type="text";input.placeholder="enter directory token...";input.id="hiddenToken";
+   input.style.cssText="display:block;width:100%;margin-top:10px;padding:11px;background:#080d13;border:1px solid #455064;color:#e5e9f2";
+   const submit = document.createElement("button");
+   submit.className="btn";submit.textContent="[ OPEN DIRECTORY ]";submit.style.marginTop="9px";
+   $("diroutput").appendChild(input);$("diroutput").appendChild(submit);
+   submit.addEventListener("click",()=>{
+    if($("hiddenToken").value.trim().toLowerCase()===HIDDEN_TOKEN){
+     $("hiddenpanel").classList.add("show");
+     $("diroutput").firstChild.textContent += "\\nACCESS GRANTED // hidden payload recovered.";
+     button.querySelector("small").textContent="OPENED";
+     toast("HIDDEN PAYLOAD RECOVERED");
+     checkFinal();
+    }else{
+     $("diroutput").firstChild.textContent += "\\nACCESS DENIED // token mismatch.";
+    }
+   });
+  }
+ });
+});
+let hiddenOpened=false;
+function checkFinal(){
+ const hidden = $("hiddenpanel").classList.contains("show");
+ if(opened===3 && hidden && !hiddenOpened){
+  hiddenOpened=true;
+  $("final").classList.add("show");
+  $("final").scrollIntoView({behavior:"smooth",block:"center"});
+  toast("FINAL TRANSMISSION UNLOCKED");
+ }
+}
+let toastTimer;
+function toast(message){
+ $("toast").textContent=message;
+ $("toast").classList.add("show");
+ clearTimeout(toastTimer);
+ toastTimer=setTimeout(()=>$("toast").classList.remove("show"),2200);
+}
+</script>
+</body>
+</html>

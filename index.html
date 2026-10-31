@@ -16,9 +16,9 @@
 <script>
 (() => {'use strict';
 // CUSTOMIZE THESE VALUES: access phrase, heading, and secret message.
-const ACCESS_TOKEN='happy birthday';
+const ACCESS_TOKEN='unkwon11sys13.//N3V3RB3TH3S4M3.zyasystm';
 const SECRET_TITLE='HAPPY BIRTHDAY, UNKNOWN ENTITY.';
-const SECRET_MESSAGE=`hey, happy birthday.\n\ni hope this new chapter brings you quieter days, unexpected good things, and room to become more of yourself.\n\nthere are things i should have understood sooner, and choices i wish i had handled with more care. this message isn't asking you to revisit anything, and it doesn't need a reply.\n\ni'm grateful that our paths crossed, even if they were never meant to run together forever. some connections are temporary; what we learn from them can stay.\n\ni hope life is gentle with you, wherever it takes you next.\n\n— transmission ends. no response required.`;
+const SECRET_MESSAGE=`hey, happy birthday.\n\ni hope this new chapter brings you quieter days, unexpected good things, and room to become more of yourself.\n\nselalu inget, Lepasin yang ngga bisa kaka ubah, syukuri yang pernah singgah, dan melangkahlah menuju cerita yang masih menunggu untuk ditulis.\n\n— transmission ends. no response required.`; 
 const $=id=>document.getElementById(id),shell=$('shell'),form=$('searchForm'),query=$('query'),error=$('error'),reveal=$('reveal'),log=$('log');let online=true,scans=0;
 function tickClock(){const d=new Date();$('clock').textContent=[d.getHours(),d.getMinutes(),d.getSeconds()].map(n=>String(n).padStart(2,'0')).join(':')}tickClock();setInterval(tickClock,1000);
 function appendLog(text,cls=''){const line=document.createElement('div');if(cls)line.className=cls;line.textContent=text;log.appendChild(line);while(log.children.length>12)log.removeChild(log.firstElementChild)}
